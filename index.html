@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Calculator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: grey;
+        }
+        .calculator {
+            border: 1px solid grey;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+        .display {
+            width: 100%;
+            height: 50px;
+            text-align: right;
+            margin-bottom: 10px;
+            font-size: 24px;
+            border: 1px solid grey;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .button {
+            padding: 20px;
+            font-size: 18px;
+            border: 1px solid grey;
+            border-radius: 5px;
+            cursor: pointer;
+            background-color: grey;
+        }
+        .button:active {
+            background-color: grey;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <h1 id="title">DOM Calculator</h1>
+        <p id="description">This calculator performs basic arithmetic operations and includes memory functions.</p>
+        <input type="text" id="result" class="display" readonly>
+        <div class="buttons">
+            <button id="clear" class="button" data-value="C">C</button>
+            <button id="backspace" class="button" data-value="Backspace">←</button>
+            <button id="decimal" class="button" data-value=".">.</button>
+            <button id="multiply" class="button" data-value="*">x</button>
+            <button id="7" class="button" data-value="7">7</button>
+            <button id="8" class="button" data-value="8">8</button>
+            <button id="9" class="button" data-value="9">9</button>
+            <button id="divide" class="button" data-value="/">/</button>
+            <button id="4" class="button" data-value="4">4</button>
+            <button id="5" class="button" data-value="5">5</button>
+            <button id="6" class="button" data-value="6">6</button>
+            <button id="subtract" class="button" data-value="-">-</button>
+            <button id="1" class="button" data-value="1">1</button>
+            <button id="2" class="button" data-value="2">2</button>
+            <button id="3" class="button" data-value="3">3</button>
+            <button id="add" class="button" data-value="+">+</button>
+            <button id="0" class="button" data-value="0">0</button>
+            <button id="double-zero" class="button" data-value="00">00</button>
+            <button id="equal" class="button" data-value="=">=</button>
+        </div>
+    </div>
+    <script src="https://app.zenclass.in/sheets/v1/js/zen/suite/bundle.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const resultDisplay = document.getElementById('result');
+        const buttons = Array.from(document.getElementsByClassName('button'));
+        let currentInput = '';
+    
+        buttons.forEach(button => {
+            button.addEventListener('click', (e) => {
+                const value = e.target.getAttribute('data-value');
+                handleInput(value);
+            });
+        });
+    
+        document.addEventListener('keydown', (e) => {
+            const keyMap = {
+                '0': '0', '1': '1', '2': '2', '3': '3', '4': '4',
+                '5': '5', '6': '6', '7': '7', '8': '8', '9': '9',
+                '.': '.', '/': '/', '*': '*', '-': '-', '+': '+',
+                 'Enter': '=', 'Backspace': 'Backspace', 'c': 'C'
+            };
+            if (keyMap.hasOwnProperty(e.key)) {
+                handleInput(keyMap[e.key]);
+            }
+        });
+    
+        function handleInput(value) {
+            if (value === 'C') {
+                currentInput = '';
+            } else if (value === 'Backspace') {
+                currentInput = currentInput.slice(0, -1);
+            } else if (value === '=') {
+                try {
+                    currentInput = eval(currentInput).toString();
+                } catch {
+                    currentInput = 'Error';
+                }
+            } else {
+                currentInput += value;
+            }
+            resultDisplay.value = currentInput;
+        }
+    });
+    </script> 
+</body>
+</html>
